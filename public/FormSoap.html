@@ -62,12 +62,11 @@
 
 </style>
 <div class="container">
-    <div class="header"> <h3>Cliente REST</h3></div>
+    <div class="header"> <h3>Cliente SOAP!</h3></div>
     <div>
-        <form id="rest_email_form">
+        <form id="soap_email_form">
             <label for="correo">Digite el correo del usuario a buscar</label>
             <input type="text" id="correo" name="correo" placeholder="Correo...">
-
             <input type="submit" value="Listar Publicaciones">
         </form>
 
@@ -87,7 +86,7 @@
     </form>
 </div>
 </body>
-<script src="templates/js/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery.min.js" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
         console.log("Ready!");
@@ -95,29 +94,32 @@
 
         $.cors = true;
 
-        $('#rest_email_form').on('submit', function(event) {
+        $('#soap_email_form').on('submit', function(event) {
             event.preventDefault();
 
             let correo = $('#correo').val();
 
 
             $.ajax({
-                url: 'http://localhost:4567/rest/publicaciones?correo=' + correo,
+                url: 'http://localhost:3000/soap/publicaciones/' + correo,
                 method: 'GET',
                 dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    $('.publicaciones').empty();
+                success: function (ans) {
+                    let data = ans.return;
 
-                    for (let i = 0; i < data.length; i++) {
+                     $('.publicaciones').empty();
+
+                    for (let i in data) {
                         let publicacion = data[i];
 
+                        let img = "";
+
+                        publicacion.img !== "-1" ?  img='<img src="http://localhost:4567' + publicacion.img +'">' : "";
+
                         $('.publicaciones').append('' +
-                            '<div >' +
+                            '<div>' + img +
                             '<p>Descripcion: ' + publicacion.descripcion + '</p>' +
                             '<p>Fecha: ' + publicacion.fecha + '</p>' +
-                            '<p>Comentarios: ' + publicacion.comentarios + '</p>' +
-                            '<p>Cantidad de Me Gusta: ' + publicacion.likeCount + '</p>' +
                             '</div>' +
                             '');
                     }
@@ -131,29 +133,12 @@
             var form = $('#crear_publicacion_form')[0];
             var data = new FormData(form);
 
-            $.ajax({
-                url: 'http://localhost:4567/rest/publicaciones/crear',
-                method: 'POST',
-                enctype: 'multipart/form-data',
-                dataType: 'json',
-                processData: false,  // Important!
-                contentType: false,
-                cache: false,
-                timeout: 200000,
-                data: data,
-                success: function (data) {
-                    alert(data);
-
-                    //limpio
-                    $('#descripcion').val("");
-                    $('#correouser').val("");
-                    $('#foto').val("");
-
-                },
-                error: function (e) {
-                    alert(e);
-                }
+            $.post("http://localhost:3000/soap/crear/", { correo: $("#correouser").val(), descripcion: $("#descripcion").val() } ).then(function (ans) {
+                alert(ans);
+                $("#descripcion").val("");
             });
+
+
         });
     });
 </script>
