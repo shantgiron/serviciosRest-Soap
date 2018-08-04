@@ -41,7 +41,7 @@ router.get("/soap/publicaciones/:correo", function(req, res, next) {
 
 router.post("/soap/crear/", function(req, res, next) {
     soap.createClient(url, function(err, client){
-        client.crear({arg0: req.body.correo, arg1: req.body.correo, arg2:"-1"}, function(err, resp){
+        client.crear({arg0: req.body.correo, arg1: req.body.descripcion, arg2: req.body.foto}, function(err, resp){
          //   console.log(resp);
             if(err){ throw err; }
                 res.json(resp);

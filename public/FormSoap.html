@@ -114,8 +114,9 @@
 
                         let img = "";
 
-                        publicacion.img !== "-1" ?  img='<img src="http://localhost:4567' + publicacion.img +'">' : "";
-
+                        if(publicacion.img !== "-1") {
+                            publicacion.naturaleza  === "UBICACION"  ? img = '<img src="' + publicacion.img + '">' : img = '<img src="http://localhost:4567' + publicacion.img + '">';
+                        }
                         $('.publicaciones').append('' +
                             '<div>' + img +
                             '<p>Descripcion: ' + publicacion.descripcion + '</p>' +
@@ -133,7 +134,7 @@
             var form = $('#crear_publicacion_form')[0];
             var data = new FormData(form);
 
-            $.post("http://localhost:3000/soap/crear/", { correo: $("#correouser").val(), descripcion: $("#descripcion").val() } ).then(function (ans) {
+            $.post("http://localhost:3000/soap/crear/", { correo: $("#correouser").val(), descripcion: $("#descripcion").val(), foto: "-1" } ).then(function (ans) {
                 alert(ans);
                 $("#descripcion").val("");
             });
