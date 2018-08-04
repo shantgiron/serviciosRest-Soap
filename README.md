@@ -1,3 +1,5 @@
-Las funcionalidades importantes se encuentran en:
+#Clientes REST y SOAP
 
-/src/main/resources/templates/
+###Capturas de pantalla:
+
+
