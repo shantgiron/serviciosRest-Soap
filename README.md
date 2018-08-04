@@ -2,7 +2,7 @@
 Realizado por Sarahime Rodriguez y Shantall Giron para la materia de programacion Web / Internet Avanzado 2018
 
 ### Capturas de pantalla:
-## Cliente REST
+## Página principal, para elegir.
 ![36820066-b5c5-47df-8a60-0b9957faba58](https://user-images.githubusercontent.com/16060112/43676996-d59c53f4-97af-11e8-9d34-ffbe88d02f07.jpg)
 
 Publicacion desde un Cliente REST con un correo valido.
