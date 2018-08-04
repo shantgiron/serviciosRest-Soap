@@ -1,4 +1,4 @@
-Capturas de pantalla:
+#Capturas de pantalla:
 ![36820066-b5c5-47df-8a60-0b9957faba58](https://user-images.githubusercontent.com/16060112/43676996-d59c53f4-97af-11e8-9d34-ffbe88d02f07.jpg)
 
 Publicacion desde un Cliente REST con un correo valido.
@@ -22,3 +22,4 @@ Listado de publicaciones dado un usuario via SOAP
 
 ![soap](https://user-images.githubusercontent.com/16060112/43677107-5e8d926c-97b1-11e8-8f97-62b25f06fe92.jpg)
 
+ Los numeros indican el listado de diferentes publicaciones dado un usuario en especifico. Cabe destacar que la tercera publicacion se hizo desde el servidor.
