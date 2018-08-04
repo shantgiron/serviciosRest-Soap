@@ -62,35 +62,37 @@
 
 </style>
 <div class="container">
-<div class="header"> <h3>Cliente REST</h3></div>
-<div>
-    <form id="rest_email_form">
-        <label for="correo">Digite el correo del usuario a buscar</label>
-        <input type="text" id="correo" name="correo" placeholder="Correo...">
+    <div class="header"> <h3>Cliente REST</h3></div>
+    <div>
+        <form id="rest_email_form">
+            <label for="correo">Digite el correo del usuario a buscar</label>
+            <input type="text" id="correo" name="correo" placeholder="Correo...">
 
-        <input type="submit" value="Listar Publicaciones">
-    </form>
+            <input type="submit" value="Listar Publicaciones">
+        </form>
 
-    <div class="publicaciones">
+        <div class="publicaciones">
 
+        </div>
     </div>
-</div>
 </div>
 
 <div class="container">
-    <form id="crear_publicacion_form">
-    <label>Publicacion</label>
-    <input type="text" id="correouser" name="correouser" placeholder="Correo de usuario...">
-    <textarea class="form-control" placeholder="Escribe lo que piensas..." id="descripcion" name="descripcion" required=""></textarea>
-    <input type="file" name="foto" accept=".png">
-    <input type="submit" value="Crear Publicacion">
+    <form id="crear_publicacion_form" enctype="multipart/form-data" method="post">
+        <label>Publicacion</label>
+        <input type="text" id="correouser" name="correo" placeholder="Correo de usuario...">
+        <textarea class="form-control" placeholder="Escribe lo que piensas..." id="descripcion" name="descripcion" required=""></textarea>
+        <input type="file" name="foto" accept=".png">
+        <input type="submit" value="Crear Publicacion">
     </form>
-    </div>
+</div>
 </body>
 <script src="templates/js/jquery.min.js" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
         console.log("Ready!");
+
+
         $.cors = true;
 
         $('#rest_email_form').on('submit', function(event) {
@@ -107,18 +109,18 @@
                     console.log(data);
                     $('.publicaciones').empty();
 
-                        for (let i = 0; i < data.length; i++) {
-                            let publicacion = data[i];
+                    for (let i = 0; i < data.length; i++) {
+                        let publicacion = data[i];
 
-                            $('.publicaciones').append('' +
-                                '<div >' +
-                                '<p>Descripcion: ' + publicacion.descripcion + '</p>' +
-                                '<p>Fecha: ' + publicacion.fecha + '</p>' +
-                                '<p>Comentarios: ' + publicacion.comentarios + '</p>' +
-                                '<p>Cantidad de Me Gusta: ' + publicacion.likeCount + '</p>' +
-                                '</div>' +
-                                '');
-                        }
+                        $('.publicaciones').append('' +
+                            '<div >' +
+                            '<p>Descripcion: ' + publicacion.descripcion + '</p>' +
+                            '<p>Fecha: ' + publicacion.fecha + '</p>' +
+                            '<p>Comentarios: ' + publicacion.comentarios + '</p>' +
+                            '<p>Cantidad de Me Gusta: ' + publicacion.likeCount + '</p>' +
+                            '</div>' +
+                            '');
+                    }
                 }
             });
         });
@@ -126,19 +128,30 @@
         $('#crear_publicacion_form').on('submit', function(event) {
             event.preventDefault();
 
-            let correo = $('#correouser').val();
-            let descripcion = $('#descripcion').val();
+            var form = $('#crear_publicacion_form')[0];
+            var data = new FormData(form);
 
             $.ajax({
                 url: 'http://localhost:4567/rest/publicaciones/crear',
                 method: 'POST',
+                enctype: 'multipart/form-data',
                 dataType: 'json',
-                data: {
-                    correo: correo,
-                    descripcion: descripcion
-                },
+                processData: false,  // Important!
+                contentType: false,
+                cache: false,
+                timeout: 200000,
+                data: data,
                 success: function (data) {
                     alert(data);
+
+                    //limpio
+                    $('#descripcion').val("");
+                    $('#correouser').val("");
+                    $('#foto').val("");
+
+                },
+                error: function (e) {
+                    alert(e);
                 }
             });
         });

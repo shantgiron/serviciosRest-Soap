@@ -24,6 +24,12 @@ public class Main {
             return null;
         });
 
+        get("/", (request, response) -> {
+            response.redirect("/rest");
+            return null;
+        });
+
+
         get("/rest", (request, response) -> {
             Map<String, Object> modelo = new HashMap<>();
             return renderThymeleaf(modelo,"/FormRest");
